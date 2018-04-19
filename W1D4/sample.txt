@@ -1,0 +1,5 @@
+I am using git for the first time. How exciting!
+
+This is the first change to the file.
+
+This is the second change to the file. 
