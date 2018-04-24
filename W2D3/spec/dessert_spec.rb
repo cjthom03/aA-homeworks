@@ -6,8 +6,8 @@ Instructions: implement all of the pending specs (the `it` statements without bl
 =end
 
 describe Dessert do
+  let(:chef) { double("chef", name: "charlie thomas") }
   subject(:cake) { Dessert.new('cake', 50, chef)}
-  let(:chef) { double("chef", :name => "charlie thomas") }
 
   describe "#initialize" do
     it "sets a type" do
@@ -29,21 +29,31 @@ describe Dessert do
 
   describe "#add_ingredient" do
     it "adds an ingredient to the ingredients array" do
-      expect(cake.add_ingredient('ham')).to include('ham')
+      # expect(cake.add_ingredient('ham')).to include('ham')
+      cake.add_ingredient('ham')
+      expect(cake.ingredients).to include('ham')
     end
   end
 
   describe "#mix!" do
-    before(:each) {
-      cake.add_ingredient('eggs')
-      cake.add_ingredient('flour')
-      cake.add_ingredient('butter')
-      cake.add_ingredient('milk')
-      cake.add_ingredient('love')
-      INGREDIENTS = %w{eggs flour butter milk love}
-    }
+    # before(:each) {
+    #   cake.add_ingredient('eggs')
+    #   cake.add_ingredient('flour')
+    #   cake.add_ingredient('butter')
+    #   cake.add_ingredient('milk')
+    #   cake.add_ingredient('love')
+    #   INGREDIENTS = %w{eggs flour butter milk love}
+    # }
+
     it "shuffles the ingredient array" do
-      expect(cake.mix!).to_not eq(INGREDIENTS)
+      ingredients = %w{eggs flour butter milk love}
+      ingredients.each do |ingredient|
+        cake.add_ingredient(ingredient)
+      end
+      expect(cake.ingredients).to eq(ingredients)
+      cake.mix!
+      expect(cake.ingredients).to_not eq(ingredients)
+      expect(cake.ingredients.sort).to eq(ingredients.sort)
     end
   end
 
@@ -54,14 +64,15 @@ describe Dessert do
     end
 
     it "raises an error if the amount is greater than the quantity" do
-      expect { cake.eat(100) }.to raise_error(RuntimeError)
+      expect { cake.eat(100) }.to raise_error('not enough left!')
     end
   end
 
   describe "#serve" do
     it "contains the titleized version of the chef's name" do
-      expect(chef).to receive(:titleize)
-      cake.serve
+      allow(chef).to receive(:titleize).and_return("Chef charlie thomas the great baker")
+      # expect(chef).to receive(:titleize)
+      expect(cake.serve).to eq("Chef charlie thomas the great baker has made 50 cakes!")
       # expect(:titleize).to receive(chef)
     end
   end
