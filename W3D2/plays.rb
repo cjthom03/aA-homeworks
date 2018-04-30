@@ -78,10 +78,23 @@ end
 
 class Playwright
   def self.all
+    data = PlayDBConnection.instance.execute("SELECT * FROM playwrights")
+    data.map { |datum| Playwright.new(datum) }
   end
 
   def self.find_by_name(name)
+    data = PlayDBConnection.instance.execute(<<-SQL, name)
+      SELECT
+        *
+      FROM
+        playwrights
+      WHERE
+        playwrights.name = ?
+    SQL
+    data.map { |datum| Playwright.new(datum) }
   end
+
+  attr_accessor :name, :birth_year
 
   def initialize(options)
     @id = options['id']
@@ -90,11 +103,30 @@ class Playwright
   end
 
   def create
+    raise 'already exists' if @id
+    PlayDBConnection.instance.execute(<<-SQL, @name, @birth_year)
+      INSERT INTO
+        playwrights(name, birth_year)
+      VALUES
+        (?, ?)
+    SQL
+    @id = PlayDBConnection.instance.last_insert_row_id
   end
 
   def update
+    raise 'no value in database - #create first' unless @id
+    PlayDBConnection.instance.execute(<<-SQL, @name, @birth_year, @id)
+      UPDATE
+        playwrights
+      SET
+        name = ?,
+        birth_year = ?
+      WHERE
+        id = ?
+    SQL
   end
 
   def get_plays
+    Play.find_by_playwright(@name)
   end
 end
