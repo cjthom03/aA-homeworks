@@ -131,7 +131,16 @@ class MetaCorgiSnacks
 
 
   def self.define_snack(name)
+    define_method(name) {
+      info_method = "get_#{name}_info".to_sym
+      tasty_method = "get_#{name}_tastiness".to_sym
 
+      info = @snack_box.send(info_method, @box_id)
+      tastiness = @snack_box.send(tasty_method, @box_id)
+
+      result = "Treat: #{info}: #{tastiness} "
+      tastiness > 30 ? "* #{result}" : result
+    }
   end
 end
 
@@ -152,8 +161,11 @@ if __FILE__ == $PROGRAM_NAME
   # p corgi3.treat
 
   meta = MetaCorgiSnacks.new(snack, 1)
-  meta.bone
-  meta.kibble
-  meta.treat
+  MetaCorgiSnacks.define_snack(:bone)
+  MetaCorgiSnacks.define_snack(:kibble)
+  MetaCorgiSnacks.define_snack(:treat)
+  p meta.bone
+  p meta.kibble
+  p meta.treat
 
 end
