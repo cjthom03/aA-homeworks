@@ -109,6 +109,8 @@ class MetaCorgiSnacks
   def initialize(snack_box, box_id)
     @snack_box = snack_box
     @box_id = box_id
+
+    snack_box.methods.grep(/^get_(.*)_info$/) { MetaCorgiSnacks.define_snack $1.to_sym }
   end
 
   # def method_missing(name, *args)
@@ -161,9 +163,9 @@ if __FILE__ == $PROGRAM_NAME
   # p corgi3.treat
 
   meta = MetaCorgiSnacks.new(snack, 1)
-  MetaCorgiSnacks.define_snack(:bone)
-  MetaCorgiSnacks.define_snack(:kibble)
-  MetaCorgiSnacks.define_snack(:treat)
+  # MetaCorgiSnacks.define_snack(:bone)
+  # MetaCorgiSnacks.define_snack(:kibble)
+  # MetaCorgiSnacks.define_snack(:treat)
   p meta.bone
   p meta.kibble
   p meta.treat
