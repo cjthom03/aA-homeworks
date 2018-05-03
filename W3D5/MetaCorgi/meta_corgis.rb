@@ -1,3 +1,5 @@
+require 'byebug'
+
 class SnackBox
   SNACK_BOX_DATA = {
     1 => {
@@ -109,12 +111,49 @@ class MetaCorgiSnacks
     @box_id = box_id
   end
 
-  def method_missing(name, *args)
-    # Your code goes here...
-  end
+  # def method_missing(name, *args)
+  #   allowed_methods = ['bone', 'kibble', 'treat']
+  #
+  #   if allowed_methods.include?(name.to_s)
+  #     info_method = "get_#{name}_info".to_sym
+  #     tasty_method = "get_#{name}_tastiness".to_sym
+  #
+  #     info = @snack_box.send(info_method, @box_id)
+  #     tastiness = @snack_box.send(tasty_method, @box_id)
+  #
+  #     result = "Treat: #{info}: #{tastiness} "
+  #     tastiness > 30 ? "* #{result}" : result
+  #
+  #   else
+  #     super
+  #   end
+  # end
 
 
   def self.define_snack(name)
-    # Your code goes here...
+
   end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  snack = SnackBox.new
+  corgi1 = CorgiSnacks.new(snack, 1)
+  corgi2 = CorgiSnacks.new(snack, 2)
+  corgi3 = CorgiSnacks.new(snack, 3)
+
+  # p corgi1.bone
+  # p corgi1.kibble
+  # p corgi1.treat
+  # p corgi2.bone
+  # p corgi2.kibble
+  # p corgi2.treat
+  # p corgi3.bone
+  # p corgi3.kibble
+  # p corgi3.treat
+
+  meta = MetaCorgiSnacks.new(snack, 1)
+  meta.bone
+  meta.kibble
+  meta.treat
+
 end
