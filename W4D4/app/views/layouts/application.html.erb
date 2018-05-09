@@ -20,10 +20,7 @@
     <% else %>
       <%= current_user.username %>
       <form action="<%= session_url %>" method="post">
-        <input
-          type="hidden"
-          name="authenticity_token"
-          value="<%= form_authenticity_token %>">
+        <%= auth_token %>
         <input type="hidden" name="_method" value="delete">
         <input type="submit" value="Logout">
       </form>
@@ -34,4 +31,8 @@
       <%= yield %>
     </main>
   </body>
+  <footer>
+    This is 99 cats y'all.
+    <%= yield :footer %>
+  </footer>
 </html>
