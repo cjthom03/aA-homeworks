@@ -3,10 +3,10 @@ class UsersController < ApplicationController
   before_action :ensure_log_out, only: [:new, :create]
 
   #temporary index route for testing
-  def index
-    @users = User.all
-    render :index
-  end
+  # def index
+  #   @users = User.all
+  #   render :index
+  # end
 
   def new
     @user = User.new
