@@ -1,0 +1,47 @@
+
+<% existing_track = track.persisted? %>
+<% action_url = existing_track ? track_url(track) : tracks_url %>
+<% html_verb = existing_track ? 'patch' : 'post' %>
+<% button_text = existing_track ? 'Update Track' : 'Create Track' %>
+
+<form action="<%= action_url %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="<%= html_verb %>">
+
+  <label for="album_name">Album Name:</label>
+  <select name="track[album_id]">
+    <% albums.each do |album| %>
+      <% default_album = album == track.album ? "selected" : "" %>
+      <option value="<%= album.id %>" <%= default_album %>>
+        <%= album.title %>
+      </option>
+    <% end %>
+  </select>
+
+  <br><br>
+
+  <label for="title">Track Title: </label>
+  <input type="text" name="track[title]" id="title" value="<%= track.title %>">
+
+  <br><br>
+
+  <label for="ord">Track Number: </label>
+  <input type="number" name="track[ord]" id="ord" value="<%= track.ord %>">
+
+  <br><br>
+
+  <label for="record_type">Track type:</label><br>
+  <input type="radio" name="track[regular_track]" value="true"
+  <%= track.regular_track ? "checked" : "" %>> Regular <br>
+
+  <input type="radio" name="track[regular_track]" value="false"
+  <%= track.regular_track ? "" : "checked" %>> Bonus <br>
+
+
+  <br><br>
+
+  <textarea name="track[lyrics]" rows="5" cols="40"><%= track.lyrics %></textarea>
+
+  <input type="submit" value="<%= button_text %>">
+
+</form>

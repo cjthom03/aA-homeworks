@@ -1,0 +1,27 @@
+<%= render 'layouts/header', header: "Bands" %>
+
+<h4>About this band: </h4>
+
+<ul>
+  <li> Name: <%= @band.name %> </li>
+  <li> Albums:</li>
+  <ul>
+    <% @band.albums.each do |album| %>
+      <li>
+        <%= link_to album.title, album_url(album) %>
+      </li>
+    <% end %>
+  </ul>
+</ul>
+
+<%= link_to "Add an album", new_band_album_url(@band) %>
+
+<br><br>
+
+<%= link_to "Edit this band?", edit_band_url(@band) %>
+<br><br>
+<form action="<%= band_url %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Band FOREVER">
+</form>

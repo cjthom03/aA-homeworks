@@ -1,0 +1,29 @@
+<%= render 'layouts/header', header: "Albums" %>
+
+
+<h4>Album: <%= @album.title %> </h4>
+
+<% rec_style = @album.studio ? "in studio" : "live" %>
+
+<ul>
+  <li> Band Name: <%= @album.band.name %> </li>
+  <li> Year Released: <%= @album.year %></li>
+  <li> Recording Style: Recorded <%= rec_style %></li>
+  <li> Tracks:</li>
+  <ul>
+      <% @album.tracks.each do |track| %>
+        <li> <a href="<%= track_url(track) %>"><%= track.title %></a> </li>
+      <% end %>
+  </ul>
+</ul>
+
+
+<br><br>
+
+<%= link_to "Edit this album?", edit_album_url(@album) %>
+<br><br>
+<form action="<%= album_url %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Album FOREVER">
+</form>

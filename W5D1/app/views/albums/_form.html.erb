@@ -1,0 +1,43 @@
+
+<% existing_album = album.persisted? %>
+<% action_url = existing_album ? album_url(album) : albums_url %>
+<% html_verb = existing_album ? 'patch' : 'post' %>
+<% button_text = existing_album ? 'Update Album' : 'Create Album' %>
+
+<form action="<%= action_url %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="<%= html_verb %>">
+
+  <label for="band_name">Band Name:</label>
+  <select name="album[band_id]">
+    <% bands.each do |band| %>
+      <% default_band = band == album.band ? "selected" : "" %>
+      <option value="<%= band.id %>" <%= default_band %>>
+        <%= band.name %>
+      </option>
+    <% end %>
+  </select>
+
+  <br><br>
+
+  <label for="title">Album Title: </label>
+  <input type="text" name="album[title]" id="title" value="<%= album.title %>">
+
+  <br><br>
+
+  <label for="year">Year: </label>
+  <input type="text" name="album[year]" id="year" value="<%= album.year %>">
+
+  <br><br>
+
+  <label for="record_type">Recording Style:</label><br>
+  <input type="radio" name="album[studio]" value="true"
+  <%= album.studio ? "checked" : "" %>> Studio <br>
+
+  <input type="radio" name="album[studio]" value="false"
+  <%= album.studio ? "" : "checked" %>> Live <br>
+
+
+  <input type="submit" value="<%= button_text %>">
+
+</form>
