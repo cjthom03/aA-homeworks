@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 feature "the signup process" do
 
   scenario "has a new user page" do
@@ -10,7 +12,7 @@ feature "the signup process" do
       visit new_user_url
       fill_in 'Email', :with => "testing@email.com"
       fill_in 'Password', :with => "biscuits"
-      click_on "Sign Up"
+      click_button "Sign Up"
     end
 
     scenario "redirects to bands index page after signup" do
@@ -22,7 +24,7 @@ feature "the signup process" do
     before(:each) do
       visit new_user_url
       fill_in 'Email', :with => "testing@email.com"
-      click_on "Sign Up"
+      click_button "Sign Up"
     end
 
     scenario "re-renders the signup page after failed signup" do
