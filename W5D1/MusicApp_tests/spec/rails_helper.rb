@@ -27,6 +27,7 @@ require 'rspec/rails'
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -54,6 +55,9 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # if you don't want to need to prefix each FactoryBot method call
+  config.include FactoryBot::Syntax::Methods
 end
 
 Shoulda::Matchers.configure do |config|
@@ -65,7 +69,7 @@ Shoulda::Matchers.configure do |config|
     # with.library :active_record
     # with.library :active_model
     # with.library :action_controller
-    
+
     # Or, choose the following (which implies all of the above):
     with.library :rails
   end

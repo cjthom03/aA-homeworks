@@ -43,8 +43,9 @@ RSpec.describe User, type: :model do
     before(:each) {charlie.save}
 
     it 'should return nil if user email does not exist' do
-      user = User.find_by_credentials('tinkle', nil)
-      expect(user).to be_nil
+      # user = User.find_by_credentials('tinkle', nil)
+      user = build(:user, email: "InvalidEmail")
+      expect(User.find_by_credentials(user.email, user.password)).to be_nil
     end
 
     it 'should return nil if users password is incorret' do
