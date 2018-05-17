@@ -302,4 +302,4 @@ function dinerBreakfast() {
     order = `${order.slice(0, order.length - 8)} and ${newOrder} please.`;
     console.log(order);
   };
-}
+};
