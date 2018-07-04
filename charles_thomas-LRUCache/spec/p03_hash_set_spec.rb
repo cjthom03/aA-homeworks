@@ -1,5 +1,6 @@
 require 'rspec'
 require 'p03_hash_set'
+require 'byebug'
 
 describe HashSet do
   let(:set) { HashSet.new(8) }
@@ -47,7 +48,9 @@ describe HashSet do
   describe "#count" do
     it "should keep track of how many entries the set has" do
       expect(set.count).to eq(0)
-      5.times { |i| set.insert(i) }
+      5.times do |i|
+        set.insert(i)
+      end
       expect(set.count).to eq(5)
     end
   end
