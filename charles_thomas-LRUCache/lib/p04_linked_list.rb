@@ -17,8 +17,10 @@ class Node
   def remove
     # optional but useful, connects previous node to next node
     # and removes self from list.
+
     self.prev.next = self.next
     self.next.prev = self.prev
+
     self.next = nil
     self.prev = nil
     nil
@@ -90,6 +92,10 @@ class LinkedList
 
   # uncomment when you have `each` working and `Enumerable` included
   def to_s
+    inject([]) { |acc, node| acc << "[#{node.key}, #{node.val}]" }.join(", ")
+  end
+
+  def inspect
     inject([]) { |acc, node| acc << "[#{node.key}, #{node.val}]" }.join(", ")
   end
 end
