@@ -1,5 +1,4 @@
 require_relative "heap"
-require 'byebug'
 
 class Array
   def heap_sort!
@@ -12,7 +11,6 @@ class Array
     end
 
     (self.length - 1).downto(1) do |len|
-      # debugger
       self[0], self[len] = self[len], self[0]
       BinaryMinHeap.heapify_down(self, 0, len, &prc)
     end
