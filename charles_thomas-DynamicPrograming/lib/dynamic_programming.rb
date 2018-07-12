@@ -10,6 +10,13 @@ class DynamicProgramming
       3 => [[1,2], [1,1,1], [2,1], [3]]
     }
     @super_frog_cache = { 0 => [[]]}
+    @maze_moves = [
+      [0, -1],
+      [0, 1],
+      [-1, 0],
+      [1, 0]
+    ]
+    @maze_cache = []
   end
 
   def blair_nums(n)
@@ -126,24 +133,27 @@ class DynamicProgramming
         new_value = 0
         if current_cap < weight
           new_value = local_solutions[-1] || new_value
-          local_solutions << new_value
         else
           if wv_id == 0
             new_value = values[wv_id]
-            local_solutions << new_value
           else
             with_weight = table[current_cap - weight][-2] + values[wv_id]
             without_weight = local_solutions.last
             new_value =[with_weight, without_weight].max
-            local_solutions << new_value
           end
         end
+        local_solutions << new_value
       end
     end
 
     table
  end
 
-  def maze_solver(maze, start_pos, end_pos)
-  end
 end
+
+
+
+
+
+
+#
