@@ -102,13 +102,47 @@ class DynamicProgramming
 
 
   def knapsack(weights, values, capacity)
-
+    return 0 if capacity < weights.min
+    table = knapsack_table(weights, values, capacity)
+    table.last.last
   end
 
-  # Helper method for bottom-up implementation
+ # Helper method for bottom-up implementation
+
+ # create an array (table) of n arrays, where n = capacity + 1
   def knapsack_table(weights, values, capacity)
+   # iterate over the weights
+   # nested - iterate over the table array
+     # For each capacity_idx < weight, push into the current capacity array..
+         # either a 0 or the last value in the current capacity array (which ever is larger)
+     # For capacity_idx >= weight
+         # compare capacity[idx].last to (capacity[idx-weight].second_to_last + value of current weight)
+         # Which ever is larger, push into capacity[idx]
 
-  end
+    table = Array.new(capacity + 1) { Array.new }
+
+    weights.each_with_index do |weight, wv_id|
+      table.each_with_index do |local_solutions, current_cap|
+        new_value = 0
+        if current_cap < weight
+          new_value = local_solutions[-1] || new_value
+          local_solutions << new_value
+        else
+          if wv_id == 0
+            new_value = values[wv_id]
+            local_solutions << new_value
+          else
+            with_weight = table[current_cap - weight][-2] + values[wv_id]
+            without_weight = local_solutions.last
+            new_value =[with_weight, without_weight].max
+            local_solutions << new_value
+          end
+        end
+      end
+    end
+
+    table
+ end
 
   def maze_solver(maze, start_pos, end_pos)
   end
